@@ -5,7 +5,7 @@ var server = {
 // Actions received via websocket
 var actions = {
     start: function(infos) {
-        message("Début de la partie : vous êtes le joueur #" + infos.config.me.id);
+        message("Début de la partie : vous êtes le joueur #" + infos.config.me);
         createGrid(infos.config);
     },
     nextMove: function(params) {
@@ -43,5 +43,4 @@ var callbacks = {
             actions[params.action](params);
         }
     },
-};
-    
+};    
