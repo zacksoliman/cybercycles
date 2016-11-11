@@ -115,6 +115,7 @@ function start() {
     });
 
     // Broadcast la configuration initiale du jeu
+    console.log(players());
     wss.clients.forEach(function(client) {
         wss.broadcast({
             action: "start",
