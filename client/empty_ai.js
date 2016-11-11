@@ -76,16 +76,19 @@ function createGrid(config) {
 /**
  * Fonction appelée à chaque step. La fonction reçoit en paramètre
  * un tableau d'enregistrements représentant les directions dans lesquelles se
- * sont déplacés les joueurs et doit retourner la nouvelle direction
- * à prendre parmi 'u' (up), 'd' (down), 'l' (left) et 'r' (right).
+ * sont déplacés les joueurs au tour précédent et doit retourner la nouvelle 
+ * direction à prendre parmi 'u' (up), 'd' (down), 'l' (left) et 'r' (right).
  * L'enregistrement prev est de la forme :
  *    [
  *      {id: id du joueur 1, direction: direction prise par le joueur 1},
  *      {id: id du joueur 2, direction: direction prise par le joueur 2},
  *   ]
+ * 
+ * Notez que la *toute première fois* que la fonction est appelée, puisqu'il n'y a pas eu
+ * de tour précédent, prev contient un tableau vide : []
  */
 function nextMove(prev) {
-
+    
     var move = 'u';
     
     return move;
