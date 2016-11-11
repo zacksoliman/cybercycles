@@ -67,14 +67,12 @@ function createGrid(config) {
             me.x = p.x;
             me.y = p.y;
             me.direction = p.direction;
-            alert('My = ' + me.direction);
             set_grid(p.x, p.y, '1');
         } else {
             other.id = p.id;
             other.x = p.x;
             other.y = p.y;
             other.direction = p.direction;
-            alert('other = ' + me.direction);
             set_grid(p.x, p.y, '2');
         }
     });
@@ -104,21 +102,21 @@ function nextMove(prev) {
 
     var move = me.direction;
 
-    /* move_player(me, move);
-       var directions = 'udlr'.split('');
-       directions.sort(function() {return Math.random() < 0.5 });
-       
-       directions.forEach(function(direction) {
-       if(!isEmptyCell(me.x, me.y)) {
-       me.x = last_pos[0];
-       me.y = last_pos[1];
-       move = direction;
-       move_player(me, move);
-       }
-       });
+    move_player(me, move);
+    var directions = 'udlr'.split('');
+    directions.sort(function() {return Math.random() < 0.5 });
+    
+    directions.forEach(function(direction) {
+        if(!isEmptyCell(me.x, me.y)) {
+            me.x = last_pos[0];
+            me.y = last_pos[1];
+            move = direction;
+            move_player(me, move);
+        }
+    });
 
-       me.x = last_pos[0];
-       me.y = last_pos[1]; */
+    me.x = last_pos[0];
+    me.y = last_pos[1];
     
     console.log(txt_render());
     
