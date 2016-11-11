@@ -1,3 +1,15 @@
+var state = [];
+var height, width;
+var opponent;
+var me;
+
+function updateState(){
+    for(var i = 0; i < height; i++){
+        for(var j = 0; j < width; j++){
+
+        }
+}
+
 function setGrid(x, y, val) {
     // TODO : colorier la grille de la bonne couleur
     // TODO : mettre à jour le modèle
@@ -26,10 +38,22 @@ function createGrid(config) {
          me: numéro d'identification (id) de votre joueur
        }
      */
+
+
     Grid.create(config.h, config.w);
 
     // TODO : initialiser les différentes variables globales représentant l'état du jeu
     // TODO : initialiser la grille de jeu avec les bonnes valeurs
+
+    height = config.h;
+    width = config.w;
+    state = Array(height).fill(Array(width).fill('E'));
+    for(var i = 0; i < config.players.length; i++){
+        if(config.players[i].me == config.me){
+        }
+    }
+    updateState();
+
 }
 
 /**
