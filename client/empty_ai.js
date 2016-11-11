@@ -1,13 +1,19 @@
 var state = [];
 var height, width;
-var opponent;
+var enemy;
 var me;
+
+var ME = 'O';
+var ENEMY = 'N';
+var OBSTACLE = 'X';
+var EMPTY = 'E';
 
 function updateState(){
     for(var i = 0; i < height; i++){
         for(var j = 0; j < width; j++){
 
         }
+    }
 }
 
 /**
@@ -54,11 +60,15 @@ function createGrid(config) {
 
     height = config.h;
     width = config.w;
-    state = Array(height).fill(Array(width).fill('E'));
+    state = Array(height).fill(Array(width).fill(ENEMY));
     for(var i = 0; i < config.players.length; i++){
-        if(config.players[i].me == config.me){
+        if(config.players[i].id == config.me){
+            me = config.players[i];
+        } else {
+            enemy = config.players[i];
         }
     }
+
     updateState();
 
 }
