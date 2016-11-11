@@ -11,7 +11,7 @@ function random_int(min, max) {
     return Math.round(Math.random() * (max - min)) + min;
 }
 
-var last_client_id = 0
+var last_client_id = 0;
 var h = random_int(18, 30), w = random_int(30, 50);
 var delay = 200;
 
@@ -49,10 +49,10 @@ function deconnexion() {
     if(winner !== undefined) {
         console.log("Déconnexion d'un des joueurs. Gagnant : ", winner.id);
         wss.broadcast({action: "win", id: winner.id});
-        process.exit(winner.id);
+        stop(winner.id);
     }
     wss.close();
-    process.exit(-1);
+    stop(-1);
 }
 
 function start() {
@@ -188,7 +188,7 @@ function step() {
             }
         });
     }
-
+    
     console.log(txt_render());
     
     var alive = players().filter(function(p) {
@@ -207,10 +207,17 @@ function step() {
         setTimeout(step, delay);
     } else if(alive.length == 1) {
         wss.broadcast({action: 'win', id: alive[0].id});
-        process.exit(alive[0].id);
+        stop(alive[0].id);
     } else if(alive.length == 0) {
         wss.broadcast({action: 'tie'});
     }
+}
+
+function stop(winner) {
+    // TODO : Reinit les variables
+    
+    // TODO : if(param)
+    process.exit(winner);
 }
 
 wss.on('connection', function(client) {
@@ -218,7 +225,7 @@ wss.on('connection', function(client) {
         id: last_client_id + 1,
         x: 0,
         y: 0,
-        direction: wss.clients.length == 0 ? 'u' : 'd',
+        direction: wss.clients.length == 1 ? 'u' : 'd',
     };
     last_client_id++;
 
@@ -267,8 +274,3 @@ function players(idx) {
     
     return players;
 }
-
-// Various helpers
-Array.prototype.contains = function(element) {
-    return this.indexOf(element) != -1;
-};

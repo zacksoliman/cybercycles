@@ -2,6 +2,7 @@ var server = {
     host: 'localhost',
     port: '1337'
 };
+
 // Actions received via websocket
 var actions = {
     start: function(infos) {
@@ -16,10 +17,12 @@ var actions = {
         var state;
         victory([params.id]);
         message("Victoire du joueur #" + params.id);
+        ws.close();
     },
     tie: function(params) {
         victory([]);
         message("Match nul ! Tous les joueurs sont morts !");
+        ws.close();
     },
 };
 
