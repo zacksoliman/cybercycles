@@ -5,20 +5,20 @@ var server = {
 // Actions received via websocket
 var actions = {
     start: function(infos) {
-        message("Début de la partie : vous êtes le joueur #" + infos.me.id);
-        createGrid(infos);
+        message("Début de la partie : vous êtes le joueur #" + infos.config.me.id);
+        createGrid(infos.config);
     },
     nextMove: function(params) {
         var m = nextMove(params.moves);
-        console.log(m);
         ws.send(m);
     },
     win: function(params) {
         var state;
-        victory(params.id);
+        victory([params.id]);
         message("Victoire du joueur #" + params.id);
     },
     tie: function(params) {
+        victory([]);
         message("Match nul ! Tous les joueurs sont morts !");
     },
 };
@@ -106,13 +106,20 @@ function createGrid(config) {
     });
     
     var players = config.players;
-    me = config.me;
+    me = {id: config.me};
+    other = {};
 
     players.forEach(function(p, i) {
         if(p.id == me.id) {
+            me.x = p.x;
+            me.y = p.y;
+            me.direction = p.direction;
             set_grid(p.x, p.y, '1');
         } else {
-            other = p;
+            other.id = p.id;
+            other.x = p.x;
+            other.y = p.y;
+            other.direction = p.direction;
             set_grid(p.x, p.y, '2');
         }
     });
@@ -186,9 +193,9 @@ function choice(arr) {
 }
 
 function victory(winner) {
-    if(me.id == winner) {
+    if(winner.indexOf(me.id) != -1) {
         set_grid(other.x, other.y, 'x');
-    } else {
+    } else if(winner.indexOf(other.id) != -1) {
         set_grid(me.x, me.y, 'x');
     }
     console.log(txt_render());

@@ -7,8 +7,12 @@ var wss = new WebSocketServer({
     port: 1337
 });
 
+function random_int(min, max) {
+    return Math.round(Math.random() * (max - min)) + min;
+}
+
 var last_client_id = 0
-var h = 26, w = 40;
+var h = random_int(18, 30), w = random_int(30, 50);
 var delay = 200;
 
 /* Code
@@ -119,7 +123,7 @@ function start() {
                 players: players(),
                 w: w,
                 h: h,
-                me: client.state
+                me: client.state.id
             }
         }, client);
     });    
@@ -267,7 +271,3 @@ function players(idx) {
 Array.prototype.contains = function(element) {
     return this.indexOf(element) != -1;
 };
-
-function random_int(min, max) {
-    return Math.round(Math.random() * (max - min)) + min;
-}

@@ -59,13 +59,20 @@ function createGrid(config) {
     });
     
     var players = config.players;
-    me = config.me;
+    me = {id: config.me};
+    other = {};
 
     players.forEach(function(p, i) {
         if(p.id == me.id) {
+            me.x = p.x;
+            me.y = p.y;
+            me.direction = p.direction;
             set_grid(p.x, p.y, '1');
         } else {
-            other = p;
+            other.id = p.id;
+            other.x = p.x;
+            other.y = p.y;
+            other.direction = p.direction;
             set_grid(p.x, p.y, '2');
         }
     });
