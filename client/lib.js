@@ -10,7 +10,6 @@ var actions = {
     },
     nextMove: function(params) {
         var m = nextMove(params.moves);
-        console.log(m);
         ws.send(m);
     },
     win: function(params) {

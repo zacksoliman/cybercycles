@@ -119,7 +119,7 @@ function start() {
                 players: players(),
                 w: w,
                 h: h,
-                me: client.state
+                me: client.state.id
             }
         }, client);
     });    
