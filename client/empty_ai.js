@@ -16,6 +16,17 @@ function updateState(){
     }
 }
 
+function setObstacles(obstacles){
+    for(var obs = 0; obs < obstacles.length; obs++){
+        // Add obstacle in the sate matrix
+        for(var i = obstacles[obs].y; i < obstacle[obs].h; i++){
+            for(var j = obstacles[obs].x; j <obstavle[obs].w; j++){
+               state[i][j] = OBSTACLE;
+            }
+        }
+    }
+}
+
 /**
  * Fonction utilisée *à l'interne* par votre code.
  * Vous devriez passer par cette fonction pour mettre à jour
@@ -69,8 +80,16 @@ function createGrid(config) {
         }
     }
 
-    updateState();
-
+    //init state matrix
+    for(var i = 0; i < height; i++){
+        for(var j = 0; j < width; j++){
+            if(i == me.y && j == me.x){
+                state[i][j] = ME;
+            } else if (i == enemy.y && j == enemy.x){
+                state[i][j] = ENEMY;
+            }
+    }
+}
 }
 
 /**
