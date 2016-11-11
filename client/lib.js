@@ -5,8 +5,8 @@ var server = {
 // Actions received via websocket
 var actions = {
     start: function(infos) {
-        message("Début de la partie : vous êtes le joueur #" + infos.me.id);
-        createGrid(infos);
+        message("Début de la partie : vous êtes le joueur #" + infos.config.me.id);
+        createGrid(infos.config);
     },
     nextMove: function(params) {
         var m = nextMove(params.moves);

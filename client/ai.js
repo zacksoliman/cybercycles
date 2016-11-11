@@ -139,9 +139,9 @@ function choice(arr) {
 }
 
 function victory(winner) {
-    if(me.id == winner) {
+    if(winner.indexOf(me.id) != -1) {
         set_grid(other.x, other.y, 'x');
-    } else {
+    } else if(winner.indexOf(other.id) != -1) {
         set_grid(me.x, me.y, 'x');
     }
     console.log(txt_render());
