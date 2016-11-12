@@ -146,8 +146,32 @@ function choice(){
   return 'u';
 }
 
-function miniMax(){
+function alphabeta(node, depth, alpha, beta, player){
+  moves = getMoves(node, player);
 
+  if(depth == 0 || moves.length == 0){
+    alpha = score(node, player);
+    return alpha;
+  }
+
+  moves.forEach(function(m){
+    
+  });
+
+}
+
+function moves(node, player){
+
+}
+
+function score(node){
+  if(won(me, node)){
+    return 100;
+  } else if (won(enemy, node)){
+    return -100;
+  } else {
+    return 50;
+  }
 }
 
 function updatePosition(player, dir){
