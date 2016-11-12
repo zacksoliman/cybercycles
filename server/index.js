@@ -13,7 +13,7 @@ function random_int(min, max) {
 
 var last_client_id = 0;
 var h = random_int(18, 30), w = random_int(30, 50);
-var delay = 200;
+var delay = 10;
 
 /* Code
     ' ': espace libre
@@ -216,8 +216,9 @@ function step() {
 function stop(winner) {
     // TODO : Reinit les variables
     
-    // TODO : if(param)
-    process.exit(winner);
+    if(process.argv.indexOf('auto')) {
+        process.exit(winner);
+    }
 }
 
 wss.on('connection', function(client) {
@@ -255,12 +256,13 @@ wss.broadcast = function(data, client) {
             try {
                 client.send(data);
             } catch(e) {
-                console.log(e);
+                console.error(e);
             }
         });
     }
 };
 
+// Helper pour récupérer tous les joueurs
 function players(idx) {
     var players = [];
     wss.clients.forEach(function(client) {
