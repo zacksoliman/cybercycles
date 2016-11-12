@@ -5,27 +5,11 @@ var me;
 
 var ME = 'O';
 var ENEMY = 'N';
-var OBSTACLE = 'X';
+var OBSTACLE = '#';
 var EMPTY = 'E';
+var DEAD = 'X';
 
-function updateState(){
-    for(var i = 0; i < height; i++){
-        for(var j = 0; j < width; j++){
-
-        }
-    }
-}
-
-function setObstacles(obstacles){
-    for(var obs = 0; obs < obstacles.length; obs++){
-        // Add obstacle in the sate matrix
-        for(var i = obstacles[obs].y; i < obstacle[obs].h; i++){
-            for(var j = obstacles[obs].x; j <obstavle[obs].w; j++){
-               state[i][j] = OBSTACLE;
-            }
-        }
-    }
-}
+var colors = {}
 
 /**
  * Fonction utilisée *à l'interne* par votre code.
@@ -33,8 +17,8 @@ function setObstacles(obstacles){
  * à la fois votre modèle interne de grille et votre interface.
  */
 function setGrid(x, y, val) {
-    // TODO : colorier la grille de la bonne couleur
-    // TODO : mettre à jour le modèle
+    Grid.colorCell(x, y, colors[val]); // colorier la grille de la bonne couleur
+    state[y][x] = val; // mettre à jour le modèle
 }
 
 /**
@@ -66,50 +50,67 @@ function setGrid(x, y, val) {
 function createGrid(config) {
     Grid.create(config.h, config.w);
 
-    // TODO : initialiser les différentes variables globales représentant l'état du jeu
-    // TODO : initialiser la grille de jeu avec les bonnes valeurs
+    // Set colors
+    colors[ME] = 'blue';
+    colors[ENEMY] = 'red';
+    colors[EMPTY] = 'transparent';
+    colors[OBSTACLE] = 'green';
+    colors[DEAD] = 'white';
 
+    // Set global variables
     height = config.h;
     width = config.w;
-    state = Array(height).fill(Array(width).fill(ENEMY));
-    for(var i = 0; i < config.players.length; i++){
-        if(config.players[i].id == config.me){
+    state = Array(height).fill(Array(width).fill(EMPTY));
+    for (var i = 0; i < config.players.length; i++) {
+        if (config.players[i].id == config.me) {
             me = config.players[i];
         } else {
             enemy = config.players[i];
         }
     }
 
-    //init state matrix
-    for(var i = 0; i < height; i++){
-        for(var j = 0; j < width; j++){
-            if(i == me.y && j == me.x){
-                state[i][j] = ME;
-            } else if (i == enemy.y && j == enemy.x){
-                state[i][j] = ENEMY;
-            }
-    }
-}
+    setGrid(me.x, me.y, ME);
+    setGrid(enemy.x, enemy.y, ENEMY);
+
+    // Set obstacles
+    config.obstacles.forEach(function(obs) {
+        for (var i = obs.y; i < obs.y + obs.h; i++) {
+          for (var j = obs.x; j < obs.x + obs.w; j++) {
+            setGrid(j, i, OBSTACLE);
+          }
+        }
+        });
+
 }
 
 /**
  * Fonction appelée à chaque step. La fonction reçoit en paramètre
  * un tableau d'enregistrements représentant les directions dans lesquelles se
- * sont déplacés les joueurs au tour précédent et doit retourner la nouvelle 
+ * sont déplacés les joueurs au tour précédent et doit retourner la nouvelle
  * direction à prendre parmi 'u' (up), 'd' (down), 'l' (left) et 'r' (right).
  * L'enregistrement prev est de la forme :
  *    [
  *      {id: id du joueur 1, direction: direction prise par le joueur 1},
  *      {id: id du joueur 2, direction: direction prise par le joueur 2},
  *   ]
- * 
+ *
  * Notez que la *toute première fois* que la fonction est appelée, puisqu'il n'y a pas eu
  * de tour précédent, prev contient un tableau vide : []
  */
 function nextMove(prev) {
-    
-    var move = 'u';
-    
+
+  prev.forEach(function(p){
+    if(p.id == me.id){
+      updatePosition(me, p.direction);
+      setGrid(me.x, me.y, ME);
+    }
+    else{
+      updatePosition(enemy, p.direction);
+      setGrid(enemy.x, enemy.y, ENEMY);
+    }
+  });
+    var move = choice();
+
     return move;
 }
 
@@ -120,6 +121,46 @@ function nextMove(prev) {
  * contenant le numéro d'identification (id) du joueur encore vivant
  */
 function victory(winners) {
-    // TODO : mettre à jour la grille avec le/les joueur(s) perdant(s)
-    
+    // mettre à jour la grille avec le/les joueur(s) perdant(s)
+    var iLost = true;
+    var enemyLost = true;
+
+    winners.forEach(function(winner){
+      if(winner == me.id){
+        iLost = false;
+      } else {
+        enemyLost = false;
+      }
+    });
+
+    if(iLost){
+      setGrid(me.x, me.y, DEAD);
+    }
+    if(enemyLost){
+      setGrid(enemy.x, enemy.y, DEAD);
+    }
+}
+
+function choice(){
+
+  return 'u';
+}
+
+function miniMax(){
+
+}
+
+function updatePosition(player, dir){
+  if(dir == 'u' && player.y > 0){
+    player.y--;
+  }
+  else if (dir == 'd'&& player.y < height){
+    player.y++;
+  }
+  else if (dir == 'l' && player.x > 0){
+    player.x--;
+  }
+  else if (dir == 'r' && player.x < width){
+    player.x++;
+  }
 }
