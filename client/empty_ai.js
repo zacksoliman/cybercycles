@@ -110,6 +110,7 @@ function nextMove(prev) {
     }
   });
     var move = choice();
+    me.direction = move;
 
     return move;
 }
@@ -142,12 +143,12 @@ function victory(winners) {
 }
 
 function choice(){
-
-  return 'u';
+  moves = validMoves(state, me);
+  return moves[Math.floor(Math.random() * moves.length)];
 }
 
 function alphabeta(node, depth, alpha, beta, player){
-  moves = getMoves(node, player);
+  moves = validMoves(node, player);
 
   if(depth == 0 || moves.length == 0){
     alpha = score(node, player);
@@ -155,13 +156,30 @@ function alphabeta(node, depth, alpha, beta, player){
   }
 
   moves.forEach(function(m){
-    
+
   });
 
 }
 
-function moves(node, player){
+function validMoves(board, player){
+  var moves = [];
+  var px = player.x;
+  var py = player.y;
 
+  if(py < height && board[py + 1][px] == EMPTY){
+    moves.push('d');
+  }
+  else if (py > 0 && board[py - 1][px] == EMPTY){
+    moves.push('u');
+  }
+  else if (px < width && board[py][px + 1] == EMPTY){
+    moves.push('r');
+  }
+  else if (px > 0 && board[py][px - 1] == EMPTY){
+    moves.push('l');
+  }
+
+  return moves;
 }
 
 function score(node){
