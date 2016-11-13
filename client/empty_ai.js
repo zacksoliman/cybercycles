@@ -17,7 +17,10 @@ var colors = {}
  * à la fois votre modèle interne de grille et votre interface.
  */
 function setGrid(x, y, val) {
+    x = Math.min(Math.max(x, 0), width - 1);
+    y = Math.min(Math.max(y, 0), height - 1);
     Grid.colorCell(x, y, colors[val]); // colorier la grille de la bonne couleur
+    console.log("Accessing i: " + y + " j: "+ x);
     state[y][x] = val; // mettre à jour le modèle
 }
 
@@ -49,7 +52,7 @@ function setGrid(x, y, val) {
 
 function createGrid(config) {
     Grid.create(config.h, config.w);
-
+    console.log(JSON.stringify(config));
     // Set colors
     colors[ME] = 'blue';
     colors[ENEMY] = 'red';
@@ -76,6 +79,7 @@ function createGrid(config) {
     config.obstacles.forEach(function(obs) {
         for (var i = obs.y; i < obs.y + obs.h; i++) {
           for (var j = obs.x; j < obs.x + obs.w; j++) {
+            //console.log("Setting obstacle: i: " + i + " j: " + j);
             setGrid(j, i, OBSTACLE);
           }
         }
@@ -110,7 +114,9 @@ function nextMove(prev) {
     }
   });
     var move = choice();
-    me.direction = move;
+    console.log(move);
+    //me.direction = move;
+
 
     return move;
 }
@@ -144,6 +150,7 @@ function victory(winners) {
 
 function choice(){
   moves = validMoves(state, me);
+  console.log("Moves " + moves);
   return moves[Math.floor(Math.random() * moves.length)];
 }
 
@@ -178,7 +185,8 @@ function validMoves(board, player){
   else if (px > 0 && board[py][px - 1] == EMPTY){
     moves.push('l');
   }
-
+  console.log(JSON.stringify(player));
+  console.log(moves);
   return moves;
 }
 
