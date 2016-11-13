@@ -12,8 +12,10 @@ function txt_render() {
 }
 
 function set_grid(x, y, char) {
-    x = Math.min(Math.max(x, 0), w - 1);
-    y = Math.min(Math.max(y, 0), h - 1);
+    
+    if(x < 0 || x >= w || y < 0 || y >= h)
+        return;
+    
     grid[y][x] = char;
 
     var colors = {
@@ -146,11 +148,11 @@ function choice(arr) {
 }
 
 function victory(winner) {
-    if(winner.indexOf(other.id) == -1) {
+    if(winner != other.id) {
         set_grid(other.x, other.y, 'x');
     }
     
-    if(winner.indexOf(me.id) == -1) {
+    if(winner != me.id) {
         set_grid(me.x, me.y, 'x');
     }
 
