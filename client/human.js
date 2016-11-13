@@ -6,9 +6,7 @@ function nextMove(prev) {
     return move;
 }
 
-$(document).keypress(function(e) {
-    if(e.key.match(/^Arrow/)){
-        move = e.key[5].toLowerCase();
-        ws.send(move);
-    }
-});
+/**
+ * TODO : capturer les événements du clavier et ajuster `move`
+ * en conséquence.
+*/
