@@ -12,8 +12,9 @@ function random_int(min, max) {
 }
 
 var last_client_id = 0;
-var h = random_int(18, 30), w = random_int(30, 50);
-var delay = 10;
+var h = random_int(18, 30), w = random_int(30, 40);
+var delay = 70;
+var initial_delay = 100;
 
 /* Code
     ' ': espace libre
@@ -51,8 +52,7 @@ function deconnexion() {
         wss.broadcast({action: "win", id: winner.id});
         stop(winner.id);
     }
-    wss.close();
-    stop(-1);
+    stop(0);
 }
 
 function start() {
@@ -67,7 +67,7 @@ function start() {
 
     var obstacles = [];
     // Crée les obstacles, set les positions de départ
-    var nb_obstacles = random_int(3, 6);
+    var nb_obstacles = random_int(2, 6);
     
     for(var i=0; i<nb_obstacles; i++) {
         var ob = {
@@ -115,7 +115,6 @@ function start() {
     });
 
     // Broadcast la configuration initiale du jeu
-    console.log(players());
     wss.clients.forEach(function(client) {
         wss.broadcast({
             action: "start",
@@ -134,7 +133,7 @@ function start() {
     console.log(txt_render());
     setTimeout(function() {
         step()
-    }, 1000 + delay);
+    }, initial_delay);
 }
 
 function step() {
@@ -210,15 +209,15 @@ function step() {
         stop(alive[0].id);
     } else if(alive.length == 0) {
         wss.broadcast({action: 'tie'});
+        stop(0);
     }
 }
 
 function stop(winner) {
-    // TODO : Reinit les variables
-    
-    if(process.argv.indexOf('auto')) {
+    if(process.argv.indexOf('--script') != -1) {
         process.exit(winner);
     }
+    last_client_id = 0;
 }
 
 wss.on('connection', function(client) {
@@ -256,7 +255,7 @@ wss.broadcast = function(data, client) {
             try {
                 client.send(data);
             } catch(e) {
-                console.error(e);
+                // Pokécatch : gotta catch'em all !
             }
         });
     }
