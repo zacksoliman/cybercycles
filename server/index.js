@@ -7,6 +7,9 @@ var wss = new WebSocketServer({
     port: 1337
 });
 
+var batch_mode = process.argv.indexOf('--script') != -1;
+var color_mode = process.argv.indexOf('--color') != -1;
+
 function random_int(min, max) {
     return Math.round(Math.random() * (max - min)) + min;
 }
@@ -38,10 +41,18 @@ function set_grid(x, y, char) {
 
 function txt_render() {
     var line = '-' + grid[0].map(function(x) { return '-'; }).join('') + '-';
-    return line + '\n' +
-           grid.map(function(e) {
-               return '|' + e.join('') + '|';
-           }).join('\n') + '\n' + line;
+    var out = line + '\n' +
+              grid.map(function(e) {
+                  return '|' + e.join('') + '|';
+              }).join('\n') + '\n' + line;
+
+    if(color_mode) {
+        out = out.replace(/x/g, "\x1b[47mx\x1b[0m")
+                 .replace(/1/g, "\x1b[34m1\x1b[0m")
+                 .replace(/2/g, "\x1b[33m2\x1b[0m");
+    }
+    
+    return out;
 }
 
 function deconnexion() {
@@ -214,7 +225,7 @@ function step() {
 }
 
 function stop(winner) {
-    if(process.argv.indexOf('--script') != -1) {
+    if(batch_mode) {
         process.exit(winner);
     }
     last_client_id = 0;

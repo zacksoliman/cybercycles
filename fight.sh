@@ -1,4 +1,6 @@
 #!/bin/bash
+# lancer avec ./fight.sh 2> /dev/null pour ne pas afficher
+# les différents "1892 Killed"
 
 rm games.log a.log b.log
 
@@ -12,10 +14,15 @@ nul=0
 
 for i in $(seq $nb_games)
 do
-    (sleep 0.05s ; node $robot1 >> a.log &> /dev/null)&
-    (sleep 0.1s ; node $robot2 >> b.log &> /dev/null)&
-    node server/index.js --script >> games.log
+    (sleep 0.1s ; node $robot1 >> a.log &> /dev/null)&
+    (sleep 0.25s ; node $robot2 >> b.log &> /dev/null)&
+    node server/index.js --color --script >> games.log
     win=$?
+
+    
+    n=$(printf %02d $i)
+    echo "--------- $n / $nb_games ----------"
+
     if [[ $win == 1 ]]
     then
         echo Victoire de A
@@ -28,9 +35,12 @@ do
         echo Match nul
         let nul++
     fi
-    n=$(printf %02d $i)
-    echo "---------$n----------"
-    echo "  A : $a_wins/$nb_games"
-    echo "  B : $b_wins/$nb_games"
-    echo "Null: $nul/$nb_games"
+    killall -9 node;
+    echo -n "  A : $a_wins"
+    test $[ $a_wins - $nul ] -gt $b_wins && echo -n ' <<----'
+    echo
+    echo -n "  B : $b_wins"
+    test $[ $b_wins - $nul ] -gt $a_wins && echo -n ' <<----'
+    echo
+    echo "Null: $nul"
 done | tee tournament.log
