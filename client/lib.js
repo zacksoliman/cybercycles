@@ -14,13 +14,12 @@ var actions = {
         ws.send(m);
     },
     win: function(params) {
-        var state;
-        victory([params.id]);
+        victory(params.id);
         message("Victoire du joueur #" + params.id);
         ws.close();
     },
     tie: function(params) {
-        victory([]);
+        victory(false);
         message("Match nul ! Tous les joueurs sont morts !");
         ws.close();
     },
