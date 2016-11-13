@@ -17,7 +17,10 @@ var colors = {}
  * à la fois votre modèle interne de grille et votre interface.
  */
 function setGrid(x, y, val) {
+    x = Math.min(Math.max(x, 0), width - 1);
+    y = Math.min(Math.max(y, 0), height - 1);
     Grid.colorCell(x, y, colors[val]); // colorier la grille de la bonne couleur
+    console.log("Accessing i: " + y + " j: "+ x + " to add: " + val);
     state[y][x] = val; // mettre à jour le modèle
 }
 
@@ -48,8 +51,9 @@ function setGrid(x, y, val) {
  */
 
 function createGrid(config) {
+  console.log("CREATING GRID");
     Grid.create(config.h, config.w);
-
+    console.log(JSON.stringify(config));
     // Set colors
     colors[ME] = 'blue';
     colors[ENEMY] = 'red';
@@ -60,7 +64,13 @@ function createGrid(config) {
     // Set global variables
     height = config.h;
     width = config.w;
-    state = Array(height).fill(Array(width).fill(EMPTY));
+
+    for(var i=0; i<config.h; i++) {
+        state.push([]);
+        for(var j=0; j<config.w; j++)
+            state[i].push(EMPTY);
+    }
+
     for (var i = 0; i < config.players.length; i++) {
         if (config.players[i].id == config.me) {
             me = config.players[i];
@@ -76,6 +86,7 @@ function createGrid(config) {
     config.obstacles.forEach(function(obs) {
         for (var i = obs.y; i < obs.y + obs.h; i++) {
           for (var j = obs.x; j < obs.x + obs.w; j++) {
+            //console.log("Setting obstacle: i: " + i + " j: " + j);
             setGrid(j, i, OBSTACLE);
           }
         }
@@ -101,8 +112,12 @@ function nextMove(prev) {
 
   prev.forEach(function(p){
     if(p.id == me.id){
+      console.log("Before update: ");
+      console.log(JSON.stringify(me));
       updatePosition(me, p.direction);
       setGrid(me.x, me.y, ME);
+      console.log("After update: ");
+      console.log(JSON.stringify(me));
     }
     else{
       updatePosition(enemy, p.direction);
@@ -110,7 +125,9 @@ function nextMove(prev) {
     }
   });
     var move = choice();
-    me.direction = move;
+    console.log(move);
+    //me.direction = move;
+
 
     return move;
 }
@@ -143,7 +160,8 @@ function victory(winners) {
 }
 
 function choice(){
-  moves = validMoves(state, me);
+  var moves = validMoves(state, me);
+  console.log("Moves " + moves);
   return moves[Math.floor(Math.random() * moves.length)];
 }
 
@@ -165,20 +183,23 @@ function validMoves(board, player){
   var moves = [];
   var px = player.x;
   var py = player.y;
-
-  if(py < height && board[py + 1][px] == EMPTY){
+  console.log("Entering validMoves");
+  console.log(JSON.stringify(player));
+  if(py < height - 1 && px < width && board[py + 1][px] == EMPTY){
     moves.push('d');
   }
-  else if (py > 0 && board[py - 1][px] == EMPTY){
+  else if (py > 0 && px < width && board[py - 1][px] == EMPTY){
     moves.push('u');
   }
-  else if (px < width && board[py][px + 1] == EMPTY){
+  else if (px < width - 1 && py < height && board[py][px + 1] == EMPTY){
     moves.push('r');
   }
-  else if (px > 0 && board[py][px - 1] == EMPTY){
+  else if (px > 0 && py < height && board[py][px - 1] == EMPTY){
     moves.push('l');
   }
-
+  console.log(JSON.stringify(player));
+  console.log(moves);
+  console.log("Exiting validMoves");
   return moves;
 }
 
@@ -193,16 +214,23 @@ function score(node){
 }
 
 function updatePosition(player, dir){
+  console.log("Entering updatePos");
+  console.log('dir: ' + dir);
   if(dir == 'u' && player.y > 0){
     player.y--;
+    console.log('UP');
   }
   else if (dir == 'd'&& player.y < height){
     player.y++;
+    console.log('DOWN');
   }
   else if (dir == 'l' && player.x > 0){
     player.x--;
+    console.log('LEFT');
   }
   else if (dir == 'r' && player.x < width){
     player.x++;
+    console.log('RIGHT');
   }
+  console.log("Exiting updatePos");
 }
