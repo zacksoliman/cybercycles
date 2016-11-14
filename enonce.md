@@ -125,7 +125,7 @@ Votre travail sera d'écrire le code de deux clients qui se connecteront au serv
 
 De plus, votre client humain devra s'occuper de dessiner la grille de jeu à l'écran. Vous pouvez utiliser les fonctions fournies dans le TP1, soient `Grid.create(width, height)` et `Grid.colorCell(x, y, color)` si vous le souhaitez, ou vous pouvez décider de créer votre propre grille en manipulant le DOM tel que vu en classe. Soyez créatifs, faites quelque chose de joli !
 
-Votre intelligence artificielle doit implanter trois fonctions qui seront appellées par le jeu, `setGrid(x, y, val)`, `createGrid(config)`, `nextMove(previousMoves)`, `victory(winner)`.
+Votre intelligence artificielle doit implanter quatre fonctions qui seront appellées par le jeu, `setGrid(x, y, val)`, `createGrid(config)`, `nextMove(previousMoves)`, `victory(winner)`.
 
 Référez-vous aux commentaires dans les fichiers `client/human.js` et `client/ai.js` pour vous guider dans votre implantation.
 
