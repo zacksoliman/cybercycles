@@ -4,8 +4,8 @@
 
 rm games.log a.log b.log
 
-robot1=client/dummy2.js
-robot2=client/dummy2.js
+robot1=client/dummy-lines.js
+robot2=client/dummy-neighbours.js
 
 nb_games=80
 a_wins=0
