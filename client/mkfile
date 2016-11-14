@@ -1,0 +1,4 @@
+dummies: dummy-dumb.js dummy-lines.js dummy-neighbours.js dummy-test.js
+
+dummy-%.js: lib.js nodelib.js ai-%.js
+	cat $prereq > dummy-$stem.js

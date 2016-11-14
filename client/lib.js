@@ -45,4 +45,4 @@ var callbacks = {
             actions[params.action](params);
         }
     },
-};    
+};

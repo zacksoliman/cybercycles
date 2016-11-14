@@ -9,17 +9,24 @@ var wss = new WebSocketServer({
 
 var batch_mode = process.argv.indexOf('--script') != -1;
 var color_mode = process.argv.indexOf('--color') != -1;
+var test_mode = process.argv.indexOf('--test') != -1;
 
 function random_int(min, max) {
     return Math.round(Math.random() * (max - min)) + min;
 }
 
 var last_client_id = 0;
-var h = random_int(18, 30), w = random_int(30, 40);
-var delay = 70;
-var initial_delay = 100;
 
-/* Code
+var h = random_int(18, 30), w = random_int(30, 40);
+
+/* Note : les délais réels utilisés pour les tournois seront :
+ * delay = 70;
+ * initial_delay = 100;
+ */
+var delay = 200;
+var initial_delay = 400;
+
+/* Codes utilisés pour représenter la grille
     ' ': espace libre
     '1'/'2': trajet du joueur 1 ou 2
     '#': obstacle
@@ -78,7 +85,7 @@ function start() {
 
     var obstacles = [];
     // Crée les obstacles, set les positions de départ
-    var nb_obstacles = random_int(2, 6);
+    var nb_obstacles = test_mode ? 0 : random_int(2, 6);
     
     for(var i=0; i<nb_obstacles; i++) {
         var ob = {
@@ -112,8 +119,8 @@ function start() {
     var x, y;
 
     do {
-        x = random_int(0, Math.round(w/4)),
-        y = random_int(0, h - 1);
+        x = test_mode ? 0 : random_int(0, Math.round(w/4)),
+        y = test_mode ? 0 : random_int(0, h - 1);
     } while(grid[y][x] != ' ');
 
     players(0).x = x;
@@ -286,3 +293,5 @@ function players(idx) {
     
     return players;
 }
+
+console.log('Serveur démarré, en attente de connexions...');

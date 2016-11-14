@@ -102,7 +102,6 @@ function nextMove(prev) {
 
     var last_pos = [me.x, me.y];
 
-
     var move = choice('udlr');
 
     move_player(me, move);

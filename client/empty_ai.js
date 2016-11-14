@@ -138,7 +138,7 @@ function nextMove(prev) {
  * La fonction reçoit en paramètre un tableau (possiblement vide)
  * contenant le numéro d'identification (id) du joueur encore vivant
  */
-function victory(winners) {
+function victory(winner) {
     // mettre à jour la grille avec le/les joueur(s) perdant(s)
     var iLost = true;
     var enemyLost = true;
