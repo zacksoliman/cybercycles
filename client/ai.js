@@ -51,6 +51,13 @@ var createGrid = function(config) {
  *
  * Notez que la *toute première fois* que la fonction est appelée, puisqu'il n'y a pas eu
  * de tour précédent, prev contient un tableau vide : []
+ * 
+ * /!\ Considération importante : la performance de votre code doit être raisonnable.
+ * Si votre code prend trop de temps à exécuter et à envoyer sa décision au serveur,
+ * le serveur assumera que votre robot continue dans la direction où il se dirigeait.
+ * Si votre code comporte un bug, votre robot ira en ligne droite jusqu'à frapper
+ * le premier obstacle sur son chemin. Pour le tournois, vous disposerez de 70ms de
+ * calcul par appel de la fonction.
  */
 var nextMove = function(previousMoves) {
     // TODO : remplir cette fonction
