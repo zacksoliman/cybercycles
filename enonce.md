@@ -166,6 +166,7 @@ Vous pourrez regarder l'avancement de la partie dans la console où vous avez la
 
 Pour tester votre implantation du client humain, ouvrez `human.html` dans votre navigateur. Pour tester votre robot, ouvrez plutôt `ai.html`.
 
+\newpage
 
 ## Évaluation
 
