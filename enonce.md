@@ -141,34 +141,30 @@ Téléchargez la version par défaut depuis le site et suivez les instructions.
 Vous pouvez lancer le serveur en ouvrant un terminal, en tapant :
 
 ```bash
-cd chemin/vers/tp2/server/
-chemin/vers/node index.js
+    cd chemin/vers/tp2/server/
+    chemin/vers/node index.js
 ```
 
 Si tout s'est bien passé, vous devriez voir :
 
-    Serveur démarré, en attente de connexions...
+        Serveur démarré, en attente de connexions...
 
+Pour éteindre le serveur, entrez Ctrl+C (windows, mac, linux, peu importe) ou fermez la fenêtre du terminal.
+
+### Tester le jeu
 
 Pour des fins de test, vous pouvez spécifier au serveur de ne pas générer d'obstacles et de donner comme positions de départ les coins de la grille en utilisant le paramètre `--test` :
 
+        chemin/vers/node index.js --test
 
-    chemin/vers/node index.js --test
+Une fois le serveur démarré, vous pouvez lancer le client de test en ouvrant le fichier `ai-test.html` *2 fois, dans 2 onglets séparés de votre navigateur* (pour lancer 2 clients).
 
-
-### Lancer le client de test
-
-Ouvrez le fichier `ai-test.html` dans votre navigateur après avoir démarré le serveur.
+Vous pourrez regarder l'avancement de la partie dans la console où vous avez lancé le serveur.
 
 
-### Lancer votre client humain
+### Lancer d'autres clients
 
-Ouvrez le fichier `human.html` dans votre navigateur après avoir démarré le serveur.
-
-
-### Lancer votre intelligence artificielle
-
-Ouvrez le fichier `ai.html` dans votre navigateur après avoir démarré le serveur.
+Pour tester votre implantation du client humain, ouvrez `human.html` dans votre navigateur. Pour tester votre robot, ouvrez plutôt `ai.html`.
 
 
 ## Évaluation
@@ -185,9 +181,9 @@ Ce travail sera évalué selon le barème suivant :
         2. Un robot qui va en ligne droite jusqu'à frapper un mur, puis qui prend une direction aléatoire
         3. Un robot qui choisi la direction dans laquelle aller en considérant la quantité de cases disponibles dans son voisinage immédiat
         4. Un robot plus avancé dont vous ne connaissez pas l'algorithme
-* **10% bonus** attribués selon un tournois entre les intelligences artificielles des différentes équipes dans la classe
+* **10% bonus** attribués selon un tournoi entre les intelligences artificielles des différentes équipes dans la classe
 
-Notez qu'en raison du caractère aléatoire du jeu, "arriver à battre" sera interprété comme : "arriver à batter une majorité de fois sur plusieurs partie".
+Notez qu'en raison du caractère aléatoire du jeu, "arriver à battre" sera interprété comme : "arriver à batter une majorité de fois sur plusieurs parties".
 
 Aucun test unitaire n'est exigé pour ce TP. Vous pouvez bien sûr décider d'en écrire si vous le souhaitez, mais ils ne seront pas évalués.
 

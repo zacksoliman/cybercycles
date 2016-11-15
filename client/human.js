@@ -15,6 +15,13 @@ var createGrid = function(config) {
     */
 };
 
+/**
+ * direction peut prendre les valeurs :
+ * 'u' (up    => haut)
+ * 'd' (down  => bas)
+ * 'l' (left  => gauche)
+ * 'r' (right => droite)
+ */
 var direction = 'u';
 
 var nextMove = function(previousMoves) {
@@ -26,9 +33,9 @@ var nextMove = function(previousMoves) {
 
     /**
      * Note : ne modifiez pas cette ligne, ni le contenu de la variable
-     * `direction`. Cette variable devrait être modifiée uniquement par
-     * le code ci-bas, lorsque l'utilisateur a appuyé sur une touche du
-     * clavier.
+     * `direction` depuis cette fonction. Cette variable devrait être
+     * modifiée uniquement par le code plus bas, lorsque l'utilisateur
+     * a appuyé sur une touche du clavier.
     */
     return direction;
 };
@@ -41,7 +48,7 @@ var victory = function(winner) {
 };
 
 /**
- * TODO : capturer les événements du clavier et ajuster `move`
+ * TODO : capturer les événements du clavier et ajuster `direction`
  * en conséquence.
 */
 document.addEventListener('keypress', function(evenement) {

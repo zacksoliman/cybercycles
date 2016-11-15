@@ -38,7 +38,7 @@ pre {
     width: 20%;
     float: left;
     text-align: left;
-    overflow-x: scroll;
+    overflow-x: auto;
 }
 .split > .right {
     width: 80%;
